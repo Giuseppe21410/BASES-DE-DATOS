@@ -15,15 +15,16 @@
 - "ALTER TABLE table_name ADD COLUMN column_name DATATYPE;": Añade una columna para un tipo de dato específico en una tabla.
    Algunos DATATYPE son: 
      - "INT":Números enteros.
-     -  "VARCHAR(max_value)": Cadena de texto de tamaño máximo. Se insertan datos con comillas simples '...'.
+     - "VARCHAR(max_value)": Cadena de texto de tamaño máximo. Se insertan datos con comillas simples '...'.
+     - "SERIAL": Enteros no nulos, que PostgreSQL genera en forma de secuencia sin necesidad de insertar (1,2,3,4...).
 
 - "ALTER TABLE table_name DROP COLUMN column_name;": Para eliminar una columna dentro de una tabla.
 
 - "ALTER TABLE table_name RENAME COLUMN column_name TO new_name;": Renombra una columna.
 
-- "INSERT INTO table_name(column_1, column_2,...) VALUES (value1, value2,...);": Añade filas (Contenido de las columnas) a la tabla. 
+- "INSERT INTO table_name(column_1, column_2,...) VALUES (value1, value2,...),(value1,value2,...)... (NOT NULL:No se admiten elementos nulos.);": Añade filas (Contenido de las columnas) a la tabla. Se pueden concatenar con comas y cerrando en paréntesis las diferentes rows.
 
-- "SELECT columns(*:ALL) FROM table_name;": Ver el contenido en una fila de una tabla.
+- "SELECT columns(*:ALL) FROM table_name;": Ver el contenido en una fila de una tabla. / "SELECT columns FROM table_name ORDER BY column_name": Las columas y sus filas se muestran en orden.
 
 - "DELETE FROM table_name WHERE condition;": Elimina una fila a partir de una condición.
 
@@ -32,6 +33,12 @@
 - "\q": Para salir.
 
 - "ALTER DATABASE database_name RENAME TO new_database_name;": Cambia el nombre de una base de datos.
+
+- "UPDATE table_name SET column_name=new_value WHERE condition;": Cambiar el valor en una columna para un row.
+
+- "ALTER TABLE table_name ADD PRIMARY KEY(column_name);": Añade una columna que identifica de forma única las fias.
+
+- "ALTER TABLE table_name DROP CONSTRAINT constraint_name;": Permite eliminar restricciones.
 
 
 
