@@ -1,0 +1,76 @@
+### Comandos básicos:
+- `dir` - Lista los archivos y carpetas en el directorio actual.
+- `cd [ruta]` - Cambia de directorio.
+- `cd ..` - Sube un nivel en la jerarquía de directorios.
+- `cls` - Limpia la pantalla de la consola.
+- `echo [texto]` - Muestra un mensaje en la consola.
+- `exit` - Cierra la consola de comandos.
+- `copy [origen] [destino]` - Copia archivos de un lugar a otro.
+- `move [origen] [destino]` - Mueve archivos o carpetas.
+- `del [archivo]` - Elimina un archivo.
+- `rmdir [carpeta] /s /q` - Elimina una carpeta y su contenido, sin pedir confirmación.
+- "mkdir" [carpeta] - Crea una carpeta.
+- "shutdown" - Apaga el equipo.
+- "shutdown /r /t 0" - Reincia el equipo.
+- "rd /q [archivo]" - Elimina un archivo.
+- "copy con archivo.txt - Crea un archivo dentro de la terminal.
+ Esto es una prueba.
+[Presiona Ctrl + Z y luego Enter para guardar]"
+- "type nul > archivo.txt" - Crea un archivo vacío.
+- "echo [texto] > archivo.txt" - Crea un archivo con contenido.
+- "type archivo.txt" - Lee el contenido.
+
+
+### Información del sistema:
+- `systeminfo` - Muestra información detallada del sistema.
+- `hostname` - Muestra el nombre del equipo.
+- `wmic cpu get name` - Muestra información sobre el procesador.
+- `wmic bios get serialnumber` - Muestra el número de serie del BIOS.
+- `tasklist` - Lista los procesos en ejecución.
+- `taskkill /PID [número] /F` - Finaliza un proceso por su ID.
+- `ipconfig` - Muestra información de la red.
+- `ipconfig /all` - Muestra información detallada de la configuración de red.
+- `ipconfig /release` - Libera la dirección IP asignada.
+- `ipconfig /renew` - Renueva la dirección IP.
+- `ping [dirección]` - Verifica la conectividad con una dirección.
+- `tracert [dirección]` - Muestra la ruta que sigue un paquete hasta su destino.
+- `netstat -an` - Muestra conexiones de red activas.
+- `powercfg /batteryreport` - Genera un informe sobre la batería.
+
+### Gestión de usuarios:
+- `net user` - Lista los usuarios en el sistema.
+- `net user [nombre] /add` - Crea un nuevo usuario.
+- `net user [nombre] /delete` - Elimina un usuario.
+- `net localgroup administrators [nombre] /add` - Agrega un usuario al grupo de administradores.
+
+### Administración de archivos y discos:
+- `chkdsk [unidad:] /f` - Verifica y repara errores en el disco.
+- `diskpart` - Abre la utilidad de particionado de discos.
+- `format [unidad:] /fs:NTFS` - Formatea una unidad con el sistema de archivos NTFS.
+- `xcopy [origen] [destino] /E /H /C /I` - Copia archivos y carpetas de manera recursiva.
+- `robocopy [origen] [destino] /MIR` - Copia archivos y mantiene sincronizadas dos ubicaciones.
+
+### Seguridad y configuración:
+- `sfc /scannow` - Escanea y repara archivos del sistema.
+- `gpupdate /force` - Actualiza políticas de grupo.
+- `cipher /w:[unidad]` - Borra datos de una unidad de forma segura.
+- `attrib +h +s [archivo]` - Oculta un archivo.
+- `attrib -h -s [archivo]` - Muestra un archivo oculto.
+
+### Programación y automatización:
+- `assoc` - Muestra asociaciones de extensiones de archivos.
+- `set [variable]=[valor]` - Define una variable de entorno.
+- `echo %VARIABLE%` - Muestra el valor de una variable de entorno.
+- `for /L %i in (1,1,10) do echo %i` - Bucle que cuenta del 1 al 10.
+- `schtasks /create /tn "MiTarea" /tr "C:\ruta\archivo.bat" /sc daily /st 12:00` - Programa una tarea en el Programador de Tareas.
+
+### Comandos avanzados
+- `regedit` - Abre el editor del registro de Windows.
+- `msconfig` - Abre la configuración del sistema.
+- `eventvwr` - Abre el visor de eventos de Windows.
+- `services.msc` - Abre la administración de servicios.
+- `devmgmt.msc` - Abre el Administrador de dispositivos.
+- `perfmon` - Abre el Monitor de rendimiento.
+
+Estos son algunos de los comandos más útiles en la consola de Windows. Puedes utilizarlos para administrar tu sistema de manera eficiente.
+

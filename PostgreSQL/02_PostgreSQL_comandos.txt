@@ -1,0 +1,60 @@
+## Conjunto de comandos para interactuar con PostgreSQL desde la terminal:
+
+* `psql --username=username --dbname=name`: Inicia la aplicación cliente de PostgreSQL.
+
+* `\l`: Lista todas las bases de datos disponibles.
+
+* `CREATE DATABASE database_name;`: Crea una nueva base de datos.
+
+* `\c database_name`: Conecta el cliente a la base de datos especificada.
+
+* `\d`: Muestra las tablas disponibles en la base de datos conectada.
+  `\d table_name`: Muestra la estructura de una tabla específica (columnas, tipos, claves, etc.).
+
+* `CREATE TABLE table_name();`: Crea una tabla vacía.
+  `CREATE TABLE table_name(column_name DATATYPE CONSTRAINTS);`: Crea una tabla con columnas, tipos de datos y restricciones.
+
+* `ALTER TABLE table_name ADD COLUMN column_name DATATYPE;`: Añade una nueva columna a una tabla.
+  `ALTER TABLE table_name ADD COLUMN column_name DATATYPE CONSTRAINT REFERENCES referenced_table_name(referenced_column_name);`: Añade una columna con una clave foránea que referencia otra tabla. Esto establece una relación entre ambas tablas (puede ser uno a uno o uno a muchos, según el contexto).
+
+  Algunos tipos de datos (`DATATYPE`) comunes son:
+
+  * `INT`: Números enteros.
+  * `VARCHAR(max_value)`: Cadena de texto con longitud máxima definida. Se insertan datos con comillas simples `'texto'`.
+  * `SERIAL`: Enteros autoincrementales y no nulos. PostgreSQL los genera automáticamente como una secuencia.
+  * `DATE`: Fechas en formato `'YYYY-MM-DD'`.
+  * `NUMERIC(4,1)`: Número con hasta 4 dígitos y 1 decimal (por ejemplo, 12.3).
+
+* `ALTER TABLE table_name DROP COLUMN column_name;`: Elimina una columna de una tabla.
+
+* `ALTER TABLE table_name RENAME COLUMN column_name TO new_name;`: Cambia el nombre de una columna.
+
+* `INSERT INTO table_name(column_1, column_2,...) VALUES (value1, value2,...), (value1, value2,...);`: Inserta filas de datos en una tabla. Las filas se separan por comas y cada una va entre paréntesis.
+
+* `SELECT columns,... (*: todas) FROM table_name;`: Muestra los datos de una tabla.
+  `SELECT columns FROM table_name ORDER BY column_name;`: Muestra los datos ordenados por una columna.
+  `SELECT columns FROM table_name WHERE condition;`: Filtra las filas según una condición.
+
+* `DELETE FROM table_name WHERE condition;`: Elimina filas que cumplan la condición dada.
+
+* `DROP TABLE table_name;`: Elimina una tabla completa.
+
+* `\q`: Sale del cliente `psql`.
+
+* `ALTER DATABASE database_name RENAME TO new_database_name;`: Cambia el nombre de una base de datos.
+
+* `UPDATE table_name SET column_name=new_value WHERE condition;`: Modifica valores de una columna en las filas que cumplan la condición.
+
+* `ALTER TABLE table_name ADD PRIMARY KEY(column_name,...);`: Define una clave primaria, que identifica de forma única cada fila.
+
+* `ALTER TABLE table_name DROP CONSTRAINT constraint_name;`: Elimina una restricción existente.
+
+* `ALTER TABLE table_name ADD UNIQUE(column_name);`: Garantiza que los valores de esa columna sean únicos dentro de la tabla (puede usarse para relaciones uno a uno si se combina con una clave foránea).
+
+  `ALTER TABLE table_name ALTER COLUMN column_name SET NOT NULL;`: Fuerza a que la columna no admita valores nulos.
+
+* `ALTER TABLE table_name ADD FOREIGN KEY(column_name) REFERENCES referenced_table(referenced_column);`: Establece una clave externa que vincula una columna con otra tabla. Esto permite unir datos entre tablas.
+
+* `SELECT columns FROM table_1 FULL JOIN table_2 ON table_1.primary_key_column = table_2.foreign_key_column;`: Une dos tablas mostrando todas las filas, coincidan o no (valores nulos donde no hay coincidencias).
+
+* `SELECT columns FROM junction_table FULL JOIN table_1 ON junction_table.foreign_key_column_1 = table_1.primary_key_column FULL JOIN table_2 ON junction_table.foreign_key_column_2 = table_2.primary_key_column;`: Muestra toda la información combinada desde una tabla intermedia (de unión) hacia otras dos tablas enlazadas.
