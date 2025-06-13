@@ -1,0 +1,155 @@
+
+## Conjunto de comandos equivalentes en MariaDB desde la terminal:
+
+* `mysql -u usuario -p nombre_bd`: Inicia el cliente de línea de comandos de MariaDB (te pedirá la contraseña).
+
+* `SHOW DATABASES;`: Lista todas las bases de datos disponibles.
+
+* `CREATE DATABASE nombre_base_de_datos;`: Crea una nueva base de datos.
+
+* `USE nombre_base_de_datos;`: Conecta el cliente a la base de datos especificada.
+
+* `SHOW TABLES;`: Muestra las tablas disponibles en la base de datos conectada.
+  `DESCRIBE nombre_tabla;`: Muestra la estructura de una tabla específica (columnas, tipos, claves, etc.).
+  `SHOW CREATE TABLE nombre_tabla`: Muestra la estructura  con más contenido.
+
+* `CREATE TABLE nombre_tabla();`: Crea una tabla vacía.
+  `CREATE TABLE nombre_tabla(nombre_columna TIPO CONSTRAINTS,...);`: Crea una tabla con columnas, tipos de datos y restricciones.
+
+* `ALTER TABLE nombre_tabla ADD COLUMN nombre_columna TIPO;`: Añade una nueva columna a una tabla.
+  `ALTER TABLE nombre_tabla ADD COLUMN nombre_columna TIPO, ADD FOREIGN KEY(nombre_columna) REFERENCES tabla_referencia(columna_referencia);`: Añade una columna con clave foránea.
+
+  Algunos tipos de datos comunes son:
+
+  * `INT`: Números enteros.
+  * `VARCHAR(longitud)`: Cadena de texto con longitud máxima definida. Se insertan datos con comillas simples `'texto'`.
+  * `TEXT`: Cadena de texto sin longitud máxima definida.
+  * `INT AUTO_INCREMENT`: Enteros autoincrementales (solo una columna por tabla y debe ser PRIMARY KEY).
+  * `DATE`: Fechas en formato `'YYYY-MM-DD'`.
+  * `DATETIME`: Fechas con formato `'YYYY-MM-DD HH:MM:SS'`
+  * `DECIMAL(4,1)`: Número con hasta 4 dígitos y 1 decimal (por ejemplo, 12.3).
+  * `BOOLEAN` o `TINYINT(1)`: Valor lógico (1 o 0).
+
+* `ALTER TABLE nombre_tabla DROP nombre_columna;`: Elimina una columna de una tabla.
+
+* `ALTER TABLE nombre_tabla CHANGE nombre_columna nuevo_nombre TIPO;`: Cambia el nombre de una columna (se necesita especificar el tipo de nuevo).
+
+* `INSERT INTO nombre_tabla(columna_1, columna_2,...) VALUES (valor1, valor2,...), (valor1, valor2,...);`: Inserta filas en una tabla.
+
+* `SELECT columnas,... (*: todas) FROM nombre_tabla;`: Muestra datos de una tabla.
+  `SELECT columnas FROM nombre_tabla ORDER BY columna;`: Ordena por una columna.
+  `SELECT columnas FROM nombre_tabla WHERE condicion;`: Filtra las filas.
+
+* `DELETE FROM nombre_tabla WHERE condicion;`: Elimina filas.
+
+* `DELETE FROM nombre_tabla`: Elimina todas las filas de la tabla.
+
+* `DROP TABLE nombre_tabla;`: Elimina una tabla completa.
+
+* `DROP TABLE nombre_tabla IF EXISTS;`: Elimina una tabla si exiiste. Evita errores.
+
+* `CREATE TABLE nombre_tabla IF NOT EXISTS;` Crea una tabla si no existe. 
+
+* `exit;` o `quit;`: Sale del cliente `mysql`.
+
+* `RENAME DATABASE nombre_anterior TO nuevo_nombre;` *(no soportado directamente, requiere scripts de copia/movimiento)*
+
+* `UPDATE nombre_tabla SET columna=valor WHERE condicion;`: Modifica valores de una columna.
+
+* `ALTER TABLE nombre_tabla ADD PRIMARY KEY(nombre_columna,...);`: Define una clave primaria.
+
+* `ALTER TABLE nombre_tabla DROP INDEX nombre_restriccion;` *(para eliminar claves únicas o foráneas, a veces requiere el nombre exacto de la clave)*
+
+* `ALTER TABLE nombre_tabla ADD UNIQUE(nombre_columna);`: Establece valores únicos.
+
+* `UNSIGNED(nombre_columna);`: Establece valores no negativos.
+
+* `DEFAULT CURRENT_TIMESTAMP(nombre_columna);`: Establece la hora y fecha actual si no se le asigna ningún valor.
+
+  `ALTER TABLE nombre_tabla MODIFY nombre_columna TIPO NOT NULL;`: Establece que una columna no puede ser nula.
+
+* `ALTER TABLE nombre_tabla ADD FOREIGN KEY(nombre_columna) REFERENCES tabla_referencia(columna);`: Establece una clave foránea.
+
+
+
+* `SELECT columnas FROM tabla_intermedia
+   JOIN tabla_1 ON tabla_intermedia.fk1 = tabla_1.pk
+   JOIN tabla_2 ON tabla_intermedia.fk2 = tabla_2.pk;`: Combina una tabla de unión con dos tablas relacionadas.
+
+* `mysqldump -u USUARIO -p NOMBRE_BD > archivo.sql`: Exporta la base de datos a un archivo SQL.
+
+* `ALTER TABLE nombre_tabla MODIFY nombre_columna TIPO RESTRICCIONES;` : Cambia el tipo de dato y restricciones de una columna.
+
+* Para añadir una clave foránea, recuerda que ambas columnas deben tener el mismo tipo de dato y atributo. Antes de eliminar la columna, debes eliminar antes la clave foránea.
+
+* `ALTER TABLE libros DROP FOREIGN KEY nombre_clave`; Elimina la clave de una columna.
+
+
+/// FULL OUTER JOIN /// 
+* `SELECT columnas FROM tabla_1 LEFT JOIN tabla_2 ON tabla_1.clave = tabla_2.clave
+   UNION
+   SELECT columnas FROM tabla_1 RIGHT JOIN tabla_2 ON tabla_1.clave = tabla_2.clave;`: Emula FULL JOIN en MariaDB.
+🧠 ¿Qué es un FULL OUTER JOIN en MariaDB?
+
+En SQL estándar, un FULL OUTER JOIN devuelve:
+
+- Todas las filas de ambas tablas.
+- Coincidencias entre las tablas combinadas.
+- Filas sin coincidencia completadas con NULL.
+
+🔴 PERO: MariaDB **no soporta directamente** FULL OUTER JOIN.
+
+✅ Solución: emularlo usando LEFT JOIN + UNION + RIGHT JOIN.
+
+📊 Ejemplo:
+
+Tabla: usuarios
+| id | nombre  |
+|----|---------|
+| 1  | Ana     |
+| 2  | Bruno   |
+| 3  | Carla   |
+
+Tabla: prestamos
+| id | id_usuario | libro     |
+|----|------------|-----------|
+| 1  | 2          | Quijote   |
+| 2  | 4          | Odisea    |
+
+Consulta para emular FULL OUTER JOIN:
+
+SELECT u.id AS id_usuario, u.nombre, p.id AS id_prestamo, p.libro
+FROM usuarios u
+LEFT JOIN prestamos p ON u.id = p.id_usuario
+
+UNION
+
+SELECT u.id AS id_usuario, u.nombre, p.id AS id_prestamo, p.libro
+FROM usuarios u
+RIGHT JOIN prestamos p ON u.id = p.id_usuario;
+
+La tabla usuarios equivale a "u" y la tabla prestamos "p", los alias u.id se presentna como id_usuario con "AS".
+
+* `UNION`: Junta los resultados de ambos SELECT y elimina duplicados.
+
+* `LEFT JOIN`: Toma todas las filas de usuario y las une con usuarios si coincide con u.id = p.id_usuario. 
+
+* `RIGHT JOIN`: Toma todas las filas de prestamo y las une con usuarios si coincide con u.id = p.id_usuario. 
+
+* `SELECT:  Específica las filas que deben mostrarse.
+
+🔍 Resultado:
+
+| id_usuario | nombre | id_prestamo | libro   |
+|------------|--------|-------------|---------|
+| 1          | Ana    | NULL        | NULL    |
+| 2          | Bruno  | 1           | Quijote |
+| 3          | Carla  | NULL        | NULL    |
+| NULL       | NULL   | 2           | Odisea  |
+
+✅ Explicación:
+- Ana y Carla no tienen préstamo → aparecen con NULL en los campos de préstamo.
+- Bruno tiene un préstamo → se combinan.
+- Hay un préstamo de un usuario no existente (id_usuario=4) → se muestra con NULL en los campos del usuario.
+
+
